@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#f7f3ea" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161b" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Kelimece: her gün yeni bir Türkçe kelime. Altı tahminde bul, serini koru, rozetleri topla.">
+  <title>Kelimece</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="img/ikon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/ikon-192.png">
+  <link rel="stylesheet" href="css/stil.css">
+</head>
+<body>
+  <div class="uygulama" id="uygulama">
+    <header class="ust">
+      <div class="ust-grup">
+        <button class="ikon-btn" id="btnYardim" aria-label="Nasıl oynanır">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M9.2 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.8 2.4-2.8 4"/><circle cx="12" cy="17.6" r=".6" class="dolu"/></svg>
+        </button>
+        <button class="ikon-btn" id="btnRozetler" aria-label="Rozetler">
+          <svg viewBox="0 0 24 24"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 5H4v1.5A3.5 3.5 0 0 0 7.5 10M17 5h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 13v3.5M8.5 20h7l-1-3.5h-5z"/></svg>
+          <span class="nokta" id="rozetNokta" hidden></span>
+        </button>
+      </div>
+      <h1 class="logo" id="logo" aria-label="Kelimece">
+        <span>K</span><span>E</span><span>L</span><span>İ</span><span>M</span><span>E</span><span>C</span><span>E</span>
+      </h1>
+      <div class="ust-grup">
+        <button class="ikon-btn" id="btnIstatistik" aria-label="İstatistikler">
+          <svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>
+        </button>
+        <button class="ikon-btn" id="btnAyarlar" aria-label="Ayarlar">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <nav class="modlar" role="tablist" aria-label="Oyun modu">
+      <button role="tab" data-mod="gunluk">Günün Kelimesi</button>
+      <button role="tab" data-mod="sinirsiz">Sınırsız</button>
+      <button role="tab" data-mod="zaman">Zamana Karşı</button>
+      <span class="mod-isaret" aria-hidden="true"></span>
+    </nav>
+
+    <div class="bilgi-satiri">
+      <div class="bilgi" id="bilgi"></div>
+      <div class="uzunluklar" id="uzunluklar" role="radiogroup" aria-label="Harf sayısı">
+        <button data-n="4" role="radio">4</button>
+        <button data-n="5" role="radio">5</button>
+        <button data-n="6" role="radio">6</button>
+      </div>
+    </div>
+
+    <div class="zaman-cubugu" id="zamanCubugu" hidden><div class="dolgu"></div></div>
+
+    <main class="tahta-alani" id="tahtaAlani">
+      <div class="tahta" id="tahta" aria-label="Tahmin tahtası"></div>
+      <div class="zaman-giris" id="zamanGiris" hidden>
+        <div class="saat-ikon">⏱️</div>
+        <h2>Zamana Karşı</h2>
+        <p>2 dakikan var. Bildiğin her kelime <b>+1 puan</b> ve <b>+10 saniye</b> kazandırır.</p>
+        <p class="kucuk" id="zamanRekor"></p>
+        <button class="birincil buyuk-btn" id="btnZamanBasla">Başla</button>
+      </div>
+    </main>
+
+    <div class="eylemler" id="eylemler">
+      <button class="ipucu-btn" id="btnIpucu">
+        <span aria-hidden="true">💡</span> İpucu <span class="reklam-isaret" id="ipucuReklam" aria-label="reklam izleyerek">▶</span>
+      </button>
+      <button class="ipucu-btn" id="btnYeni" hidden>Yeni kelime ➜</button>
+    </div>
+
+    <div class="klavye" id="klavye" aria-label="Klavye"></div>
+    <div class="banner-boslugu" aria-hidden="true"></div>
+  </div>
+
+  <div class="tostlar" id="tostlar" aria-live="polite"></div>
+  <canvas class="konfeti" id="konfeti" aria-hidden="true"></canvas>
+
+  <div class="perde" id="perde" hidden>
+    <div class="pencere" role="dialog" aria-modal="true" aria-labelledby="pencereBaslik">
+      <button class="kapat" id="btnKapat" aria-label="Kapat">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div id="pencereIcerik"></div>
+    </div>
+  </div>
+
+  <script type="module" src="js/uygulama.js"></script>
+</body>
+</html>

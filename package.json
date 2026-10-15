@@ -1,0 +1,15 @@
+{
+  "name": "kelimece",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kelimece: Türkçe günlük kelime oyunu (web, Android, iOS)",
+  "scripts": {
+    "start": "node scripts/sunucu.mjs",
+    "test": "node --test tests/*.test.js",
+    "sozluk": "node scripts/sozluk-olustur.mjs",
+    "sync": "npx cap sync",
+    "android": "npx cap sync android && npx cap open android",
+    "ios": "npx cap sync ios && npx cap open ios"
+  }
+}

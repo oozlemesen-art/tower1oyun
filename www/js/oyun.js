@@ -85,7 +85,7 @@ export function ipucuSec(cevap, tahminler, acilanlar = [], rastgele = Math.rando
 
 const KARE = { dogru: '🟩', var: '🟨', yok: '⬜' };
 export function paylasimMetni({ baslik, tahminler, cevap, kazandi, ipucu = 0 }) {
-  const skor = kazandi ? tahminler.length : 'X';
+  const skor = !kazandi ? 'X' : tahminler.length > HAK ? `${HAK}+1` : tahminler.length;
   const satirlar = tahminler.map((t) => degerlendir(t, cevap).map((s) => KARE[s]).join(''));
   const ek = ipucu ? ` 💡${ipucu}` : '';
   return `${baslik} ${skor}/${HAK}${ek}\n\n${satirlar.join('\n')}`;
@@ -117,4 +117,23 @@ export function istatistikGuncelle(ist, { kazandi, tahminSayisi, gunNo = null })
 export function guncelSeri(ist, bugunNo) {
   if (ist.sonGun === null || ist.sonGun >= bugunNo - 1) return ist.seri;
   return 0;
+}
+
+// Zor mod: yeşil harfler yerinde kalmalı, sarı harfler sonraki tahminde kullanılmalı.
+// Kurala uyuyorsa null, uymuyorsa oyuncuya gösterilecek mesaj döner.
+export function zorModHatasi(tahmin, oncekiler, cevap) {
+  const t = [...tahmin];
+  for (const onceki of oncekiler) {
+    const sonuc = degerlendir(onceki, cevap);
+    const o = [...onceki];
+    for (let i = 0; i < o.length; i++) {
+      if (sonuc[i] === 'dogru' && t[i] !== o[i]) return `${i + 1}. harf ${buyuk(o[i])} olmalı`;
+    }
+    const gereken = {};
+    o.forEach((h, i) => { if (sonuc[i] !== 'yok') gereken[h] = (gereken[h] || 0) + 1; });
+    for (const [h, adet] of Object.entries(gereken)) {
+      if (t.filter((x) => x === h).length < adet) return `Tahminde ${buyuk(h)} harfi olmalı`;
+    }
+  }
+  return null;
 }
